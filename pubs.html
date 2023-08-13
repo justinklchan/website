@@ -1,0 +1,84 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"></head><body><span class="tab-header"><h2>Publications</h2></span>
+<div class="subsection">
+<!--?php require_once('injector.html'); ?-->
+
+<!--?php require_once('pubs_compiled2.html'); ?-->
+
+<!--?php require_once('stm.html'); ?-->
+
+<!--?php require_once('cardiac.html'); ?-->
+
+{% for entry in entries %}
+
+<div class="row">
+
+    {% set resource_links = (entry|extra_urls) %}
+    {% set comments = (entry|comments) %}
+
+<div class="col-md-3">
+<a href="https://homes.cs.washington.edu/~jucha/content/%7B%7B%20resource_links['PDF']|escape%20%7D%7D">
+    <img class="img-responsive pub-img" src="pubs_files/%7B%7Bentry%20thumb%7D%7D.html">
+</a>
+</div>
+
+<div class="col-md-9 px-md-4">
+    <h4 style="margin-bottom:-20px;">
+    <a href="https://homes.cs.washington.edu/~jucha/content/%7B%7B%20resource_links['PDF']|escape%20%7D%7D" class="ptitle">{{ entry|title }}</a>
+    </h4>
+
+    {% if entry.fields['award'] %}
+    <br>
+    <span class="award">
+        {{ entry.fields['award'] }}
+    </span>
+    {% endif %}
+
+    {% if entry.fields['award2'] %}
+        <br>
+    <span class="award">
+        {{ entry.fields['award2'] }}
+    </span>
+    {% endif %}
+    <br>
+
+    {% set authors = entry.persons['author']|author_list %}
+     <span class="auth1">{{ authors[0] }}</span><span class="auth2">{{ authors[1] }}</span><span class="auth3">{{ authors[2] }}</span>
+    <br>
+
+    <span class="venue"><i>{{ entry|venue }}</i></span>,
+    <span class="date"> {{ entry.fields['year'] }}.</span>
+
+    <br>
+    
+    <div class="spacing" style="margin-bottom:5px"></div>
+    
+    <div class="resource_links">
+    {% for type in med_types %}
+        {% if type in resource_links.keys() %}
+            <span class="resource">
+            <a href="https://homes.cs.washington.edu/~jucha/content/%7B%7B%20resource_links[type]|escape%20%7D%7D" class="resource_links"> <img src="pubs_files/%7B%7Bmedia_types[type]%20%7D%7D.html" width="17px" height="17px/"> {{ type|escape }} {{comments[type]}}</a>
+            </span>
+        {% endif %}
+    {% endfor %}
+    </div>
+
+    {% if 'tweet' in entry.fields%}
+    <div class="tweets" style="max-width:600px">
+    <!-- {{entry.fields['tweet']}} -->
+    </div>
+    {%endif%}
+
+    {% if 'news' in entry.fields%}
+    <div class="news" style="max-width:500px">
+    Press: {{entry.fields['news']}}
+    </div>
+    {%endif%}
+
+</div> <!-- col-md -->
+</div> <!-- row -->
+<br>
+{% endfor %}
+
+</div>  <!-- subsection -->
+</body></html>
